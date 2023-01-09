@@ -1,0 +1,43 @@
+{
+  "name": "cnc-controller",
+  "version": "0.1.0",
+  "description": "Electron app for running CNC jobs (GRBL G-Code)",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf ui/dist/ && rm -rf node_modules/.vite",
+    "start:web": "cd ui/ && vite -m development",
+    "build:web": "cd ui/ && tsc -p ./src/tsconfig.json && vite build --emptyOutDir",
+    "build:web:dev": "cd ui/ && tsc -p ./src/ui/tsconfig.json && vite build -m development",
+    "build:app": "tsc -p ./app/tsconfig.json",
+    "start:app": "bash ./scripts/start-app.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "main": "app/dist/app.js",
+  "author": "glebka@users.noreply.github.com",
+  "license": "MIT",
+  "devDependencies": {
+    "@reduxjs/toolkit": "^1.8.0",
+    "@types/node": "^18.11.13",
+    "@types/react": "^17.0.39",
+    "@types/react-dom": "^17.0.11",
+    "@types/styled-components": "^5.1.26",
+    "@vitejs/plugin-react": "^2.0.1",
+    "bonjour-service": "^1.0.14",
+    "bootstrap": "^5.1.3",
+    "electron": "^22.0.0",
+    "electron-builder": "^23.6.0",
+    "electron-window-state": "^5.0.3",
+    "env-cmd": "^10.1.0",
+    "inversify": "^6.0.1",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
+    "react-dom": "^17.0.2",
+    "react-dropzone": "^12.1.0",
+    "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
+    "reflect-metadata": "^0.1.13",
+    "styled-components": "^5.3.5",
+    "typescript": "^4.7.4",
+    "vite": "^3.0.7"
+  }
+}

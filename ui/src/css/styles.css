@@ -1,0 +1,6 @@
+body {
+    user-select: none;
+}
+.main {
+    max-width: 1024px !important;
+}
