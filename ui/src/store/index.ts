@@ -26,6 +26,7 @@ export type AppDispatch = typeof store.dispatch;
 
 export const MachineStateActions = machineStateSlice.actions;
 export const JobActions = jobStateSlice.actions;
+export const ServiceDiscoveryActions = serviceDiscoverySlice.actions;
 
 export { MachineStateSelectors } from "./machineStateSlice";
 export { JobStateSelectors } from "./jobStateSlice";

@@ -12,6 +12,7 @@ import {
   listenConnectToAction,
   listenToCNCDaemonOnline,
 } from "./store";
+import { listenToReconnectAction } from "./store/serviceDiscoverySlice";
 
 export class SystemController {
   private static _initElectron() {
@@ -42,6 +43,7 @@ export class SystemController {
   private static _initListenerMiddleware(grblController: GrblController) {
     listenConnectToAction(listenerMiddleware, grblController);
     listenToCNCDaemonOnline(listenerMiddleware);
+    listenToReconnectAction(listenerMiddleware);
   }
 
   static init() {

@@ -4,9 +4,14 @@ import {
   createSlice,
   PayloadAction,
   createListenerMiddleware,
+  AnyAction,
 } from "@reduxjs/toolkit";
 import { RootState } from ".";
-import { SERVICE_DISCOVERY_SLICE } from "./types";
+import {
+  MachineStatus,
+  MACHINE_STATE_SLICE,
+  SERVICE_DISCOVERY_SLICE,
+} from "./types";
 
 interface ServiceInfo {
   host: string;
@@ -56,6 +61,22 @@ export const serviceDiscoverySlice = createSlice({
     setConnectivityState: (state, action: PayloadAction<ConnectivityState>) => {
       state.connectivityState = action.payload;
     },
+    reconnect: (state, _: AnyAction) => {
+      // do nothing
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      (action: AnyAction) => action.type === `${MACHINE_STATE_SLICE}/setStatus`,
+      (state, action: PayloadAction<MachineStatus>) => {
+        const status = action.payload;
+        if (status === "Disconnected") {
+          state.connectivityState = "disconnected";
+        } else {
+          state.connectivityState = "connected";
+        }
+      }
+    );
   },
 });
 
@@ -70,10 +91,22 @@ const canSelectCNC = createSelector(
 const selectConnectivityState = (state: RootState) =>
   state[SERVICE_DISCOVERY_SLICE].connectivityState;
 
+const _selectDiscoveredServicesMap = (state: RootState) =>
+  state[SERVICE_DISCOVERY_SLICE].discovered;
+const _selectId = (state: RootState, id: string) => id;
+
+const selectServiceInfoById = createSelector(
+  [_selectDiscoveredServicesMap, _selectId],
+  (discovered, serviceId: string) => {
+    return discovered[serviceId];
+  }
+);
+
 export const ServiceDiscoverySelectors = {
   selectDiscoveredServices,
   canSelectCNC,
   selectConnectivityState,
+  selectServiceInfoById,
 };
 
 type ListenerMiddleware = ReturnType<typeof createListenerMiddleware>;
@@ -86,6 +119,7 @@ export const listenConnectToAction = (
     actionCreator: serviceDiscoverySlice.actions.connectTo,
     effect: async (action, listenerApi) => {
       const { host, port } = action.payload;
+      grblController.disconnect();
       await grblController.connect(host, port);
     },
   });
@@ -103,6 +137,21 @@ export const listenToCNCDaemonOnline = (
         listenerApi.dispatch(
           serviceDiscoverySlice.actions.connectTo(action.payload)
         );
+      }
+    },
+  });
+};
+
+export const listenToReconnectAction = (
+  listenerMiddleware: ListenerMiddleware
+) => {
+  listenerMiddleware.startListening({
+    actionCreator: serviceDiscoverySlice.actions.reconnect,
+    effect: async (_, listenerApi) => {
+      const state = listenerApi.getState() as RootState;
+      const { active } = state[SERVICE_DISCOVERY_SLICE];
+      if (active) {
+        listenerApi.dispatch(serviceDiscoverySlice.actions.connectTo(active));
       }
     },
   });

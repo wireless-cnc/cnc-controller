@@ -1,4 +1,4 @@
-# CNC App
+# CNC-Controller App
 
 ## References
 

@@ -5,6 +5,19 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { MachineStateSelectors } from "@app/store";
 import { useSelector } from "react-redux";
+import { MachineStatus } from "@app/store/types";
+import React from "react";
+
+import {
+  CiSquareQuestion,
+  CiCircleCheck,
+  CiPause1,
+  CiWarning,
+  CiHome,
+} from "react-icons/ci";
+import { VscDebugDisconnect } from "react-icons/vsc";
+import { IoPlayForward } from "react-icons/io5";
+import { IoMdMove } from "react-icons/io";
 
 const { selectMachinePos, selectWorkPos, selectStatus } = MachineStateSelectors;
 
@@ -34,6 +47,19 @@ const CenteredContainer = styled(Container)`
 const PaddedContainer = styled(Container)`
   padding-bottom: 1rem;
 `;
+
+const machineStatusToIconMap: Record<MachineStatus, React.ReactNode> = {
+  Disconnected: <VscDebugDisconnect />,
+  Initial: <CiSquareQuestion />,
+  Idle: <CiCircleCheck />,
+  Hold: <CiPause1 />,
+  Alarm: <CiWarning />,
+  Check: <CiWarning />,
+  Door: <CiWarning />,
+  Home: <CiHome />,
+  Jog: <IoMdMove />,
+  Run: <IoPlayForward />,
+};
 
 const CoordinateView = (props: CoordinateViewProps) => {
   return (
@@ -74,7 +100,9 @@ export const MachineStateWidget = () => {
           <CoordinateView x={machinePos.x} y={machinePos.y} z={machinePos.z} />
         </PaddedContainer>
         <Card.Subtitle className="mb-2 text-muted">Status</Card.Subtitle>
-        <Card.Text>{status}</Card.Text>
+        <Card.Text>
+          {machineStatusToIconMap[status]} {status}
+        </Card.Text>
       </Card.Body>
     </StyledCard>
   );

@@ -14,7 +14,6 @@ async function createWindow() {
     },
     webPreferences: {
       contextIsolation: false,
-      devTools: true,
       spellcheck: false,
       nodeIntegration: false,
       webviewTag: false,
@@ -47,7 +46,6 @@ async function createWindow() {
    * @see https://github.com/electron/electron/issues/25012 for the afford mentioned issue.
    */
   browserWindow.on("ready-to-show", () => {
-    browserWindow?.webContents.openDevTools();
     browserWindow?.show();
   });
 

@@ -105,6 +105,10 @@ export class GrblController implements IController {
         this._waitHandle?.reject(new Error("Unexpected connection error"));
         this._handler.onDisconnected(this);
         reject();
+        socket.onclose = null;
+        socket.onopen = null;
+        socket.onerror = null;
+        socket.onmessage = null;
       };
     });
   }
@@ -130,6 +134,12 @@ export class GrblController implements IController {
 
   resetController() {
     this._fifo = [];
+  }
+
+  disconnect() {
+    if (this._socket) {
+      this._socket.close();
+    }
   }
 
   sendReset() {
