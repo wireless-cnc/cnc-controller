@@ -17,12 +17,14 @@ install:
 build_script:
   - npm run pack:app
 
+artifacts:
+  - path: dist\cnc-controller-setup.exe
+
 deploy:
 - provider: GitHub
   description: Draft release
   auth_token:
     secure: bX4+yRG5TU2wiUBW4BFbiuK+wzH0IBfNZFVuXVA0jTDdENvU7GUC00LRECTfLmAt
-  artifact: dist\cnc-controller-setup.exe
   draft: true
   on:
     branch: main
