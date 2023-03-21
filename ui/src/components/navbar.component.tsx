@@ -13,7 +13,7 @@ export const AppNavbar = () => {
       <StyledContainer fluid>
         <Container fluid>
           <img
-            src="cnc.png"
+            src="milling-machine.png"
             className="d-inline-block align-top"
             width={24}
             height={24}

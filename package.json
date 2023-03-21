@@ -3,6 +3,24 @@
   "version": "0.1.0",
   "description": "Electron app for running CNC jobs (GRBL G-Code)",
   "private": true,
+  "build": {
+    "appId": "wireless-cnc.controller.app",
+    "productName": "Wireless CNC Controller",
+    "copyright": "glebka@users.noreply.github.com",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "package.json",
+      "app/dist/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/milling-machine.png",
+      "artifactName": "cnc-controller-setup-${version}.${ext}"
+    }
+  },
   "scripts": {
     "clean": "rm -rf ui/dist/ && rm -rf node_modules/.vite",
     "start:web": "cd ui/ && vite -m development",
@@ -10,11 +28,16 @@
     "build:web:dev": "cd ui/ && tsc -p ./src/ui/tsconfig.json && vite build -m development",
     "build:app": "tsc -p ./app/tsconfig.json",
     "start:app": "bash ./scripts/start-app.sh",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack:app": "cd ui/ && tsc -p ./src/tsconfig.json && vite build --emptyOutDir && cd .. && tsc -p ./app/tsconfig.json && electron-builder"
   },
   "main": "app/dist/app.js",
   "author": "glebka@users.noreply.github.com",
   "license": "MIT",
+  "dependencies": {
+    "bonjour-service": "^1.0.14",
+    "electron-window-state": "^5.0.3"
+  },
   "devDependencies": {
     "@reduxjs/toolkit": "^1.8.0",
     "@types/node": "^18.11.13",
@@ -22,11 +45,9 @@
     "@types/react-dom": "^17.0.11",
     "@types/styled-components": "^5.1.26",
     "@vitejs/plugin-react": "^2.0.1",
-    "bonjour-service": "^1.0.14",
     "bootstrap": "^5.1.3",
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",
-    "electron-window-state": "^5.0.3",
     "env-cmd": "^10.1.0",
     "inversify": "^6.0.1",
     "react": "^17.0.2",
