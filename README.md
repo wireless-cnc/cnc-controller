@@ -7,7 +7,8 @@ Electron app for controlling GRBL CNC machine and running CNC jobs.
 ## How to use it
 
 1. Grab the ESP-01 board and flash it with [CNCD firmware](https://github.com/wireless-cnc/cncd-esp01)
-2. Insert ESP-01 into the slot, the arrow on the top side shows the direction of the ESP-01 antenna
+2. Insert ESP-01 into the slot of the [cncd-esp01-board
+](https://github.com/wireless-cnc/cncd-esp01-board), the arrow on the top side shows the direction of the ESP-01 antenna
 3. Connect the board with the CNC Controller Board using [Offline Controller's cable](https://docs.sainsmart.com/article/zinzutpbhg-genmitsu-3018-pro-offline-controller-guide)
 4. Power on CNC
 5. Configure WiFi connection of CNCD 
