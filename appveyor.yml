@@ -18,15 +18,13 @@ build_script:
   - npm run pack:app
 
 deploy:
-  release: cnc-controller-v$(APPVEYOR_BUILD_VERSION)
-  description: 'Release description'
-  provider: GitHub
+- provider: GitHub
+  description: Draft release
   auth_token:
     secure: F9LLS3TkKo/pFmBa0e7yTV0JpYdCvyBHZfR1B84cRwBI110D9sDBnEzJ77mpT5hy0UfKC0mW4Wbp4DJWokiiOQsPvhvy1C0c4Jj4lxEHzl0i3pgvvQ8dSeNK4p6YWaPV
-  artifact: dist\setup.exe
+  artifact: dist\cnc-controller-setup.exe
   draft: true
-  prerelease: false
   on:
     branch: main
-    #APPVEYOR_REPO_TAG: true        # deploy on tag push only
+
 test: false
