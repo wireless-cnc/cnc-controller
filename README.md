@@ -19,6 +19,13 @@ Electron app for controlling GRBL CNC machine and running CNC jobs.
 * currently supports Windows 10 and newer
 * tested on Windows 10
 
+## How to build
+
+1. Install Node.js via nvm or other way. This project compiles using Node.js 19
+2. Run ``npm install``
+3. Run ``npm run pack:app``
+4. Find build artifacts in the ``dist/`` folder
+
 ## Features
 
 * automatically discovers CNC in your home network by using mDNS query
