@@ -18,7 +18,7 @@
     "win": {
       "target": "nsis",
       "icon": "build/milling-machine.png",
-      "artifactName": "cnc-controller-setup-${version}.${ext}"
+      "artifactName": "setup.${ext}"
     }
   },
   "scripts": {

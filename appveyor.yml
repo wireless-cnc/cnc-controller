@@ -1,0 +1,32 @@
+image: Visual Studio 2019
+
+platform:
+  - x64
+
+cache:
+  - node_modules
+  - '%USERPROFILE%\.electron'
+
+init:
+  - git config --global core.autocrlf input
+
+install:
+  - ps: Install-Product node 19 x64
+  - npm install
+
+build_script:
+  - npm run pack:app
+
+deploy:
+  release: cnc-controller-v$(APPVEYOR_BUILD_VERSION)
+  description: 'Release description'
+  provider: GitHub
+  auth_token:
+    secure: <your encrypted token>
+  artifact: dist\setup.exe
+  draft: true
+  prerelease: false
+  on:
+    branch: main
+    #APPVEYOR_REPO_TAG: true        # deploy on tag push only
+test: false

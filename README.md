@@ -2,6 +2,8 @@
 
 Electron app for controlling GRBL CNC machine and running CNC jobs.
 
+<img src="docs/screenshot.png" alt="the app window">
+
 ## OS support
 
 * currently supports Windows 10 and newer
