@@ -22,7 +22,7 @@ deploy:
   description: 'Release description'
   provider: GitHub
   auth_token:
-    secure: <your encrypted token>
+    secure: F9LLS3TkKo/pFmBa0e7yTV0JpYdCvyBHZfR1B84cRwBI110D9sDBnEzJ77mpT5hy0UfKC0mW4Wbp4DJWokiiOQsPvhvy1C0c4Jj4lxEHzl0i3pgvvQ8dSeNK4p6YWaPV
   artifact: dist\setup.exe
   draft: true
   prerelease: false
