@@ -21,7 +21,7 @@ deploy:
 - provider: GitHub
   description: Draft release
   auth_token:
-    secure: F9LLS3TkKo/pFmBa0e7yTV0JpYdCvyBHZfR1B84cRwBI110D9sDBnEzJ77mpT5hy0UfKC0mW4Wbp4DJWokiiOQsPvhvy1C0c4Jj4lxEHzl0i3pgvvQ8dSeNK4p6YWaPV
+    secure: bX4+yRG5TU2wiUBW4BFbiuK+wzH0IBfNZFVuXVA0jTDdENvU7GUC00LRECTfLmAt
   artifact: dist\cnc-controller-setup.exe
   draft: true
   on:
