@@ -7,7 +7,7 @@ import { IController } from "./types";
 import { TYPES } from "@app/inversify.types";
 const { setStatus, processStatusReport } = MachineStateActions;
 
-const STATUS_QUERY_INTERVAL_MS = 500;
+const STATUS_QUERY_INTERVAL_MS = 700;
 
 @injectable()
 export class MachineStateHandler extends BaseGrblHandler {
