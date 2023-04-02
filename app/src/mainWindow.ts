@@ -2,6 +2,9 @@ import { BrowserWindow } from "electron";
 import type { BrowserWindowConstructorOptions } from "electron";
 import { URL } from "url";
 import windowStateKeeper from "electron-window-state";
+import logger from "./logger";
+
+const log = logger.scope("window");
 
 async function createWindow() {
   const windowOptions: BrowserWindowConstructorOptions = {
@@ -37,6 +40,8 @@ async function createWindow() {
     height: windowState.height,
   });
 
+  log.info("Window instance created");
+
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
    * it then defaults to 'true'. This can cause flickering as the window loads the html content,
@@ -47,6 +52,21 @@ async function createWindow() {
    */
   browserWindow.on("ready-to-show", () => {
     browserWindow?.show();
+    log.info("Window displayed");
+    const web = browserWindow.webContents;
+    web.on("console-message", (e, level, message, line, sourceId) => {
+      log.info(
+        `Web console: src=${sourceId}, ln=${line}, level=${level}, msg=${message}`
+      );
+    });
+  });
+
+  browserWindow.on("unresponsive", () => {
+    log.warn("Window is not responding");
+  });
+
+  browserWindow.on("responsive", () => {
+    log.warn("Window now responsive");
   });
 
   /**
@@ -59,6 +79,7 @@ async function createWindow() {
     : new URL("dist/renderer/index.html", "file://" + __dirname).toString();
 
   await browserWindow.loadURL(pageUrl);
+  log.debug(`Start loading ${pageUrl}`);
 
   return browserWindow;
 }

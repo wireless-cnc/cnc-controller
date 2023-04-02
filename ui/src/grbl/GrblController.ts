@@ -58,19 +58,21 @@ export class GrblController implements IController {
     return new Promise((resolve, reject) => {
       const wsUri = `ws://${host}:${port}/ws`;
       const socket = new WebSocket(wsUri);
-
+      console.log(`Connecting to ${wsUri}...`);
       this._socket = socket;
 
       socket.onopen = () => {
+        console.log(`Connected to ${wsUri}`);
         this._isConnected = true;
         this._handler.onConnected(this);
         resolve();
       };
 
-      socket.onerror = () => {
+      socket.onerror = (ev) => {
         this._isConnected = false;
         this._handler.onConnectionError(this);
         reject();
+        console.error(`WebSocket connection error: ${ev}`);
       };
 
       socket.onmessage = (ev) => {
@@ -109,6 +111,7 @@ export class GrblController implements IController {
         socket.onopen = null;
         socket.onerror = null;
         socket.onmessage = null;
+        console.info(`WebSocket connection closed`);
       };
     });
   }
