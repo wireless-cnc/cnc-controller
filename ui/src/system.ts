@@ -11,6 +11,7 @@ import {
   listenerMiddleware,
   listenConnectToAction,
   listenToCNCDaemonOnline,
+  listenToStatusReportAction,
 } from "./store";
 import { listenToReconnectAction } from "./store/serviceDiscoverySlice";
 
@@ -44,6 +45,7 @@ export class SystemController {
     listenConnectToAction(listenerMiddleware, grblController);
     listenToCNCDaemonOnline(listenerMiddleware);
     listenToReconnectAction(listenerMiddleware);
+    listenToStatusReportAction(listenerMiddleware);
   }
 
   static init() {

@@ -1,4 +1,9 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createSelector,
+  createSlice,
+  PayloadAction,
+  createListenerMiddleware,
+} from "@reduxjs/toolkit";
 import { RootState } from ".";
 import { MachineStatus, Vector, MACHINE_STATE_SLICE } from "./types";
 import { parseStatusReport } from "./utils";
@@ -85,4 +90,41 @@ export const MachineStateSelectors = {
   canHold,
   canResume,
   canReset,
+};
+
+type ListenerMiddleware = ReturnType<typeof createListenerMiddleware>;
+
+const IDLE_STATUSES: MachineStatus[] = [
+  "Alarm",
+  "Check",
+  "Disconnected",
+  "Door",
+  "Idle",
+  "Initial",
+];
+
+export const listenToStatusReportAction = (
+  listenerMiddleware: ListenerMiddleware
+) => {
+  listenerMiddleware.startListening({
+    actionCreator: machineStateSlice.actions.processStatusReport,
+    effect: (() => {
+      let lastStatus: MachineStatus = "Disconnected";
+      return async (_, listenerApi) => {
+        const state = listenerApi.getState() as RootState;
+        const currentStatus = state[MACHINE_STATE_SLICE].status;
+        if (lastStatus && window.electron) {
+          const lastStatusIdle = IDLE_STATUSES.includes(lastStatus);
+          const currentStatusIdle = IDLE_STATUSES.includes(currentStatus);
+          if (lastStatusIdle && !currentStatusIdle) {
+            window.electron.cncActive();
+          }
+          if (!lastStatusIdle && currentStatusIdle) {
+            window.electron.cncInactive();
+          }
+        }
+        lastStatus = currentStatus;
+      };
+    })(),
+  });
 };

@@ -54,10 +54,8 @@ async function createWindow() {
     browserWindow?.show();
     log.info("Window displayed");
     const web = browserWindow.webContents;
-    web.on("console-message", (e, level, message, line, sourceId) => {
-      log.info(
-        `Web console: src=${sourceId}, ln=${line}, level=${level}, msg=${message}`
-      );
+    web.on("console-message", (e, level, message, line) => {
+      log.info(`Web console: ln=${line}, level=${level}, msg=${message}`);
     });
   });
 

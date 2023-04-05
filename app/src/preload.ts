@@ -7,4 +7,10 @@ import { WebDispatcher } from "./renderer";
   notifyWebInitialized: async () => {
     await WebDispatcher.notifyWebInitialized();
   },
+  cncActive: async () => {
+    await WebDispatcher.cncActive();
+  },
+  cncInactive: async () => {
+    await WebDispatcher.cncInactive();
+  },
 };

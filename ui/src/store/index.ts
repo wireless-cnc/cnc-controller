@@ -35,3 +35,4 @@ export {
   listenConnectToAction,
   listenToCNCDaemonOnline,
 } from "./serviceDiscoverySlice";
+export { listenToStatusReportAction } from "./machineStateSlice";

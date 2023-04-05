@@ -2,6 +2,8 @@ import {
   Action,
   DESKTOP_TO_WEB_DISPATCH_CHANNEL,
   WEB_TO_DESKTOP_WEB_INITIALIZED,
+  WEB_TO_DESKTOP_CNC_ACTIVE,
+  WEB_TO_DESKTOP_CNC_INACTIVE,
 } from "../api";
 import { ipcRenderer } from "electron";
 
@@ -23,6 +25,14 @@ class WebDispatch {
 
   async notifyWebInitialized() {
     await ipcRenderer.invoke(WEB_TO_DESKTOP_WEB_INITIALIZED);
+  }
+
+  async cncActive() {
+    await ipcRenderer.invoke(WEB_TO_DESKTOP_CNC_ACTIVE);
+  }
+
+  async cncInactive() {
+    await ipcRenderer.invoke(WEB_TO_DESKTOP_CNC_INACTIVE);
   }
 
   private _handleIpc(_: Electron.IpcRendererEvent, action: Action) {
