@@ -6,6 +6,7 @@ import {
   SERVICE_DISCOVERY_SLICE,
   serviceDiscoverySlice,
 } from "./serviceDiscoverySlice";
+import { THEME_SLICE, themeSlice } from "./themeSlice";
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -14,6 +15,7 @@ export const store = configureStore({
     [MACHINE_STATE_SLICE]: machineStateSlice.reducer,
     [JOB_STATE_SLICE]: jobStateSlice.reducer,
     [SERVICE_DISCOVERY_SLICE]: serviceDiscoverySlice.reducer,
+    [THEME_SLICE]: themeSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -27,6 +29,7 @@ export type AppDispatch = typeof store.dispatch;
 export const MachineStateActions = machineStateSlice.actions;
 export const JobActions = jobStateSlice.actions;
 export const ServiceDiscoveryActions = serviceDiscoverySlice.actions;
+export const ThemeActions = themeSlice.actions;
 
 export { MachineStateSelectors } from "./machineStateSlice";
 export { JobStateSelectors } from "./jobStateSlice";
@@ -35,3 +38,4 @@ export {
   listenConnectToAction,
   listenToCNCDaemonOnline,
 } from "./serviceDiscoverySlice";
+export { ThemeSelectors } from "./themeSlice";

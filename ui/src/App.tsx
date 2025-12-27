@@ -9,37 +9,40 @@ import { MachineStateWidget } from "./components/machine-state.component";
 import { JobCardWidget } from "./components/job-card.component";
 import { ControlsWidget } from "./components/controls.component";
 import { ConnectivityWidget } from "./components/connectivity.component";
+import { ThemeProvider } from "./components/theme-provider.component";
 
 export const App = () => {
   return (
-    <>
-      {!window.electron && <AppNavbar />}
-      <Container className="main">
-        <Row>
-          <Col>
-            <JobCardWidget />
-          </Col>
-          <Col lg={5}>
-            <Container>
-              <Row>
-                <Col>
-                  <ConnectivityWidget />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <MachineStateWidget />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <ControlsWidget />
-                </Col>
-              </Row>
-            </Container>
-          </Col>
-        </Row>
-      </Container>
-    </>
+    <ThemeProvider>
+      <>
+        {!window.electron && <AppNavbar />}
+        <Container className="main">
+          <Row>
+            <Col>
+              <JobCardWidget />
+            </Col>
+            <Col lg={5}>
+              <Container>
+                <Row>
+                  <Col>
+                    <ConnectivityWidget />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <MachineStateWidget />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <ControlsWidget />
+                  </Col>
+                </Row>
+              </Container>
+            </Col>
+          </Row>
+        </Container>
+      </>
+    </ThemeProvider>
   );
 };

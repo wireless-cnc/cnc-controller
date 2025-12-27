@@ -9,7 +9,7 @@ const log = logger.scope("window");
 async function createWindow() {
   const windowOptions: BrowserWindowConstructorOptions = {
     minWidth: 1024,
-    minHeight: 600,
+    minHeight: 650,
     autoHideMenuBar: true,
     trafficLightPosition: {
       x: 20,

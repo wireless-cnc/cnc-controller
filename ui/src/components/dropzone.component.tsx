@@ -12,10 +12,10 @@ const baseStyle = {
   padding: "20px",
   borderWidth: 2,
   borderRadius: 2,
-  borderColor: "#eeeeee",
+  borderColor: "var(--theme-border)",
   borderStyle: "dashed",
-  backgroundColor: "#fafafa",
-  color: "#bdbdbd",
+  backgroundColor: "var(--theme-bg-secondary)",
+  color: "var(--theme-text-secondary)",
   outline: "none",
   transition: "border .24s ease-in-out",
 };
@@ -59,7 +59,7 @@ export const DropArea = () => {
   ) as React.CSSProperties;
 
   return (
-    <div className="container">
+    <div className="container" style={{ paddingTop: "1rem" }}>
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>

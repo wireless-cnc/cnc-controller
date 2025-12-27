@@ -34,7 +34,9 @@ interface CoordinateViewProps {
 const BoxWithBorder = styled.div`
   border-style: solid;
   border-width: 1px;
-  border-color: #949393;
+  border-color: var(--theme-border);
+  background-color: var(--theme-bg-secondary);
+  color: var(--theme-text-primary);
   padding: 0.3rem;
   max-width: 100px;
   max-height: 40px;
@@ -46,6 +48,7 @@ const CenteredContainer = styled(Container)`
 `;
 const PaddedContainer = styled(Container)`
   padding-bottom: 1rem;
+  padding-top: 1rem;
 `;
 
 const machineStatusToIconMap: Record<MachineStatus, React.ReactNode> = {
