@@ -19,6 +19,11 @@
       "target": "nsis",
       "icon": "build/milling-machine.png",
       "artifactName": "cnc-controller-setup.${ext}"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "build/milling-machine.icns",
+      "artifactName": "cnc-controller-mac.${ext}"
     }
   },
   "scripts": {

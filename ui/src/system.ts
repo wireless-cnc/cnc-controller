@@ -47,7 +47,9 @@ export class SystemController {
   }
 
   static init() {
-    this._initElectron();
+    setTimeout(() => {
+      this._initElectron();
+    }, 1000);
     const { controller, jobStateHandler } = this._initGrbl();
     this._initListenerMiddleware(controller);
     return { controller, jobStateHandler };
