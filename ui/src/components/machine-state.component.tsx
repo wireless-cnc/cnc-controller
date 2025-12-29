@@ -3,11 +3,13 @@ import Card from "react-bootstrap/Card";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 import { MachineStateSelectors } from "@app/store";
 import { useSelector } from "react-redux";
 import { MachineStatus } from "@app/store/types";
 import React, { useState } from "react";
 import { IconButton } from "./icon-button.component";
+import { Header, HeaderLeft, StatusInline } from "./card-header.component";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 import {
@@ -25,40 +27,6 @@ const { selectMachinePos, selectWorkPos, selectStatus } = MachineStateSelectors;
 
 const StyledCard = styled(Card)`
   margin-top: 0.5rem;
-`;
-
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-`;
-
-const HeaderLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-`;
-
-const StatusInline = styled.div`
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  font-weight: 500;
-  line-height: 1;
-  
-  & svg {
-    width: 1em;
-    height: 1em;
-    vertical-align: middle;
-    transform: translateY(-0.06em);
-  }
-
-  & span {
-    line-height: 1;
-    display: inline-block;
-    transform: translateY(-0.2em);
-  }
 `;
 
 interface CoordinateViewProps {
@@ -126,10 +94,10 @@ export const MachineStateWidget = () => {
   const status = useSelector(selectStatus);
   return (
     <StyledCard>
-      <Card.Body>
+      <StyledCardBody>
         <Header>
           <HeaderLeft>
-            <Card.Title>{collapsed ? "" : "Machine state"}</Card.Title>
+            <StyledCardTitle>{collapsed ? "" : "Machine state"}</StyledCardTitle>
             {collapsed && (
               <StatusInline>
                 {machineStatusToIconMap[status]} <span>{status}</span>
@@ -163,7 +131,7 @@ export const MachineStateWidget = () => {
             </Card.Text>
           </>
         )}
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 };

@@ -5,6 +5,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 import { VscCircleFilled } from "react-icons/vsc";
 import { useDispatch, useSelector } from "react-redux";
 import { ServiceDiscoverySelectors, ServiceDiscoveryActions } from "@app/store";
@@ -98,10 +99,10 @@ export const ConnectivityWidget = () => {
     : "Not connected";
   return (
     <StyledCard>
-      <Card.Body>
+      <StyledCardBody>
         <Header>
           <HeaderLeft>
-            {!collapsed && <Card.Title>Connection</Card.Title>}
+            {!collapsed && <StyledCardTitle>Connection</StyledCardTitle>}
             {collapsed && (
               <StatusInline>
                 {statusIcon()}
@@ -159,7 +160,7 @@ export const ConnectivityWidget = () => {
             </StyledContainer>
           </Container>
         )}
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 };

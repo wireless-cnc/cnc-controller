@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { BsCheckCircle, BsPlayCircle } from "react-icons/bs";
+import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 
 import { DropArea } from "./dropzone.component";
 import { IconButton } from "./icon-button.component";
@@ -92,8 +93,8 @@ export const JobCardWidget = () => {
   }, [jobState, handler]);
   return (
     <StyledCard>
-      <Card.Body>
-        <Card.Title>CNC job</Card.Title>
+      <StyledCardBody>
+        <StyledCardTitle>CNC job</StyledCardTitle>
         <ColumnContainer>
           <DropArea />
           {jobState.fileName && (
@@ -130,7 +131,7 @@ export const JobCardWidget = () => {
             />
           </ButtonsContainer>
         </ColumnContainer>
-      </Card.Body>
+      </StyledCardBody>
       <JobStatusNotification />
     </StyledCard>
   );

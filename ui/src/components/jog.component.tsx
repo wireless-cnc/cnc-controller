@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
+import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 import { useSelector } from "react-redux";
 import { MachineStateSelectors } from "@app/store";
 import { ControllerContext } from "@app/context";
@@ -161,9 +162,9 @@ export const JogWidget = () => {
 
   return (
     <StyledCard>
-      <Card.Body>
+      <StyledCardBody>
         <Header>
-          <Card.Title>Jog</Card.Title>
+          <StyledCardTitle>Jog</StyledCardTitle>
           <IconButton
             icon={collapsed ? <FiChevronDown /> : <FiChevronUp />}
             tooltip={collapsed ? "Expand" : "Collapse"}
@@ -289,7 +290,7 @@ export const JogWidget = () => {
             />
           </>
         )}
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 };

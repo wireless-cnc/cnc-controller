@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import Card from "react-bootstrap/Card";
 import { IconButton } from "./icon-button.component";
+import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 
 import { BiReset } from "react-icons/bi";
 import { AiFillUnlock } from "react-icons/ai";
@@ -24,8 +25,8 @@ export const ControlsWidget = () => {
   const controller = useContext(ControllerContext);
   return (
     <StyledCard>
-      <Card.Body>
-        <Card.Title>Controls</Card.Title>
+      <StyledCardBody>
+        <StyledCardTitle>Controls</StyledCardTitle>
         <Card.Text>
           <IconButton
             icon={<BiReset />}
@@ -53,7 +54,7 @@ export const ControlsWidget = () => {
             disabled={zeroCoordsDisabled}
           />
         </Card.Text>
-      </Card.Body>
+      </StyledCardBody>
     </StyledCard>
   );
 };
