@@ -10,6 +10,7 @@ import { JobCardWidget } from "./components/job-card.component";
 import { ControlsWidget } from "./components/controls.component";
 import { ConnectivityWidget } from "./components/connectivity.component";
 import { ThemeProvider } from "./components/theme-provider.component";
+import { JogWidget } from "./components/jog.component";
 
 export const App = () => {
   return (
@@ -36,6 +37,11 @@ export const App = () => {
                 <Row>
                   <Col>
                     <ControlsWidget />
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <JogWidget />
                   </Col>
                 </Row>
               </Container>

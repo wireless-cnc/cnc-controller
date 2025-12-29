@@ -6,6 +6,8 @@ export interface IController {
   sendUnlock(): void;
   sendGCode(msg: string): void;
   sendZeroCoordinates(): Promise<void>;
+  sendJog(x?: number, y?: number, z?: number, feedRate?: number): void;
+  sendJogCancel(): void;
   canSend(msg: string): boolean;
   writeableBytes(): number;
 }

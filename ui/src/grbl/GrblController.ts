@@ -198,4 +198,32 @@ export class GrblController implements IController {
       this._send("G92X0Y0Z0");
     });
   }
+
+  // Send GRBL jog command
+  // Format: $J=<axis><distance> F<feed_rate>
+  // Example: $J=G91 X10 F100 (move 10mm in X at 100mm/min in incremental mode)
+  sendJog(x?: number, y?: number, z?: number, feedRate?: number) {
+    let jogCmd = "$J=G91"; // Use incremental mode (G91) for jogging
+    
+    if (x !== undefined && x !== 0) {
+      jogCmd += ` X${x}`;
+    }
+    if (y !== undefined && y !== 0) {
+      jogCmd += ` Y${y}`;
+    }
+    if (z !== undefined && z !== 0) {
+      jogCmd += ` Z${z}`;
+    }
+    
+    if (feedRate !== undefined) {
+      jogCmd += ` F${feedRate}`;
+    }
+    
+    this._send(jogCmd);
+  }
+
+  // Cancel all jog commands with the jog cancel realtime command
+  sendJogCancel() {
+    this._raw_send("\x85");
+  }
 }
