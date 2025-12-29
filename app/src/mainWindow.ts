@@ -1,10 +1,73 @@
 import { BrowserWindow } from "electron";
 import type { BrowserWindowConstructorOptions } from "electron";
 import { URL } from "url";
-import windowStateKeeper from "electron-window-state";
 import logger from "./logger";
+import { loadWindowSize, persistWindowSize } from "./windowSizeStorage";
 
 const log = logger.scope("window");
+const WINDOW_SIZE_DEBOUNCE_MS = 300;
+
+function resolveInitialDimension(
+  savedValue: number | undefined,
+  fallback: number
+) {
+  if (
+    typeof savedValue === "number" &&
+    Number.isFinite(savedValue) &&
+    savedValue > 0
+  ) {
+    return Math.max(Math.round(savedValue), fallback);
+  }
+
+  return fallback;
+}
+
+function enableWindowSizePersistence(
+  browserWindow: BrowserWindow,
+  minWidth: number,
+  minHeight: number
+) {
+  let debounceTimer: NodeJS.Timeout | undefined;
+
+  const saveSize = () => {
+    if (browserWindow.isDestroyed()) {
+      return;
+    }
+
+    const { width, height } = browserWindow.getBounds();
+    persistWindowSize({
+      width: Math.max(width, minWidth),
+      height: Math.max(height, minHeight),
+    });
+  };
+
+  const scheduleSave = () => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    debounceTimer = setTimeout(() => {
+      debounceTimer = undefined;
+      saveSize();
+    }, WINDOW_SIZE_DEBOUNCE_MS);
+  };
+
+  browserWindow.on("resize", scheduleSave);
+  browserWindow.on("close", () => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+      debounceTimer = undefined;
+    }
+
+    saveSize();
+  });
+  browserWindow.on("closed", () => {
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+      debounceTimer = undefined;
+    }
+  });
+}
 
 async function createWindow() {
   const windowOptions: BrowserWindowConstructorOptions = {
@@ -27,20 +90,18 @@ async function createWindow() {
     show: false,
   };
 
-  const windowState = windowStateKeeper({
-    defaultWidth: windowOptions.minWidth,
-    defaultHeight: windowOptions.minHeight,
-  });
-
+  const savedWindowSize = loadWindowSize();
+  const fallbackWidth = windowOptions.minWidth ?? 1024;
+  const fallbackHeight = windowOptions.minHeight ?? 650;
   const browserWindow = new BrowserWindow({
     ...windowOptions,
-    x: windowState.x,
-    y: windowState.y,
-    width: windowState.width,
-    height: windowState.height,
+    width: resolveInitialDimension(savedWindowSize?.width, fallbackWidth),
+    height: resolveInitialDimension(savedWindowSize?.height, fallbackHeight),
   });
 
   log.info("Window instance created");
+  // Persist the real window size so we can restore it on the next launch.
+  enableWindowSizePersistence(browserWindow, fallbackWidth, fallbackHeight);
 
   /**
    * If the 'show' property of the BrowserWindow's constructor is omitted from the initialization options,
