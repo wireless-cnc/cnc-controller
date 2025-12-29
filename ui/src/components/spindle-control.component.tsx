@@ -8,6 +8,7 @@ import Badge from "react-bootstrap/Badge";
 import { useSelector } from "react-redux";
 import { ControllerContext } from "@app/context";
 import { MachineStateSelectors } from "@app/store";
+import { userPreferencesStorage } from "@app/store/userPreferencesStorage";
 import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 import { Header, HeaderLeft } from "./card-header.component";
 import { GiCircularSaw } from "react-icons/gi";
@@ -113,9 +114,10 @@ const quantizeRpm = (value: number) => {
 export const SpindleControlWidget = () => {
   const controller = useContext(ControllerContext);
   const machineStatus = useSelector(MachineStateSelectors.selectStatus);
-  const [rpm, setRpm] = useState(DEFAULT_RPM);
+  const storedRpm = useMemo(() => userPreferencesStorage.getSpindleRpm(DEFAULT_RPM), []);
+  const [rpm, setRpm] = useState(storedRpm);
   const [running, setRunning] = useState(false);
-  const [lastSyncedRpm, setLastSyncedRpm] = useState(DEFAULT_RPM);
+  const [lastSyncedRpm, setLastSyncedRpm] = useState(storedRpm);
 
   const sliderFill = useMemo(() => {
     return ((rpm - MIN_RPM) / (MAX_RPM - MIN_RPM)) * 100;
@@ -130,6 +132,10 @@ export const SpindleControlWidget = () => {
       setRunning(false);
     }
   }, [machineStatus]);
+
+  useEffect(() => {
+    userPreferencesStorage.setSpindleRpm(rpm);
+  }, [rpm]);
 
   useEffect(() => {
     if (!canControl || rpm === lastSyncedRpm || !controller) {

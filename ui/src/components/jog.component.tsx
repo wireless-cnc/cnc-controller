@@ -17,6 +17,8 @@ import {
 import { MdOutlineDoNotDisturbOn } from "react-icons/md";
 import { IconButton } from "./icon-button.component";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { usePanelCollapse } from "@app/hooks/usePanelCollapse";
+import { userPreferencesStorage } from "@app/store/userPreferencesStorage";
 
 const StyledCard = styled(Card)`
   margin-top: 0.5rem;
@@ -97,12 +99,26 @@ const StyledRange = styled(Form.Range)`
 
 const STEP_OPTIONS = [0.1, 0.5, 1, 5, 10, 50, 100];
 const FEED_OPTIONS = [50, 100, 200, 500, 1000, 2000, 5000];
+const DEFAULT_STEP = 1;
+const DEFAULT_FEED = 100;
+
+const sanitizeStep = (value: number) =>
+  STEP_OPTIONS.includes(value) ? value : DEFAULT_STEP;
+
+const sanitizeFeed = (value: number) =>
+  FEED_OPTIONS.includes(value) ? value : DEFAULT_FEED;
 
 export const JogWidget = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [step, setStep] = useState(1);
-  const [feed, setFeed] = useState(100);
-  const [keyboardControl, setKeyboardControl] = useState(false);
+  const { collapsed, toggle } = usePanelCollapse("jog");
+  const [step, setStep] = useState(() =>
+    sanitizeStep(userPreferencesStorage.getJogStep(DEFAULT_STEP))
+  );
+  const [feed, setFeed] = useState(() =>
+    sanitizeFeed(userPreferencesStorage.getJogFeed(DEFAULT_FEED))
+  );
+  const [keyboardControl, setKeyboardControl] = useState(() =>
+    userPreferencesStorage.getJogKeyboardControl(false)
+  );
   const controller = useContext(ControllerContext);
   const machineStatus = useSelector(MachineStateSelectors.selectStatus);
 
@@ -160,6 +176,23 @@ export const JogWidget = () => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [keyboardControl, canJog, step, feed]);
 
+  const applyStepValue = (value: number) => {
+    const sanitized = sanitizeStep(value);
+    setStep(sanitized);
+    userPreferencesStorage.setJogStep(sanitized);
+  };
+
+  const applyFeedValue = (value: number) => {
+    const sanitized = sanitizeFeed(value);
+    setFeed(sanitized);
+    userPreferencesStorage.setJogFeed(sanitized);
+  };
+
+  const applyKeyboardControl = (value: boolean) => {
+    setKeyboardControl(value);
+    userPreferencesStorage.setJogKeyboardControl(value);
+  };
+
   return (
     <StyledCard>
       <StyledCardBody>
@@ -169,7 +202,7 @@ export const JogWidget = () => {
             icon={collapsed ? <FiChevronDown /> : <FiChevronUp />}
             tooltip={collapsed ? "Expand" : "Collapse"}
             size="sm"
-            onClick={() => setCollapsed((v) => !v)}
+            onClick={toggle}
           />
         </Header>
 
@@ -243,7 +276,9 @@ export const JogWidget = () => {
               <ControlGroup>
                 <StyledSelect
                   value={step}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setStep(parseFloat(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    applyStepValue(parseFloat(e.target.value))
+                  }
                 >
                   {STEP_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -255,7 +290,11 @@ export const JogWidget = () => {
                   min={0}
                   max={STEP_OPTIONS.length - 1}
                   value={STEP_OPTIONS.indexOf(step)}
-                  onChange={(e) => setStep(STEP_OPTIONS[parseInt(e.target.value)])}
+                  onChange={(e) => {
+                    const index = parseInt(e.target.value, 10);
+                    const option = STEP_OPTIONS[index] ?? DEFAULT_STEP;
+                    applyStepValue(option);
+                  }}
                 />
               </ControlGroup>
             </ControlRow>
@@ -265,7 +304,9 @@ export const JogWidget = () => {
               <ControlGroup>
                 <StyledSelect
                   value={feed}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setFeed(parseInt(e.target.value))}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                    applyFeedValue(parseInt(e.target.value, 10))
+                  }
                 >
                   {FEED_OPTIONS.map((opt) => (
                     <option key={opt} value={opt}>
@@ -277,7 +318,11 @@ export const JogWidget = () => {
                   min={0}
                   max={FEED_OPTIONS.length - 1}
                   value={FEED_OPTIONS.indexOf(feed)}
-                  onChange={(e) => setFeed(FEED_OPTIONS[parseInt(e.target.value)])}
+                  onChange={(e) => {
+                    const index = parseInt(e.target.value, 10);
+                    const option = FEED_OPTIONS[index] ?? DEFAULT_FEED;
+                    applyFeedValue(option);
+                  }}
                 />
               </ControlGroup>
             </ControlRow>
@@ -286,7 +331,7 @@ export const JogWidget = () => {
               type="checkbox"
               label="Keyboard control"
               checked={keyboardControl}
-              onChange={(e) => setKeyboardControl(e.target.checked)}
+              onChange={(e) => applyKeyboardControl(e.target.checked)}
             />
           </>
         )}

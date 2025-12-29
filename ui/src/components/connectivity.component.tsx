@@ -12,7 +12,7 @@ import { ServiceDiscoverySelectors, ServiceDiscoveryActions } from "@app/store";
 import { IconButton } from "./icon-button.component";
 import { TfiReload } from "react-icons/tfi";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import { useState } from "react";
+import { usePanelCollapse } from "@app/hooks/usePanelCollapse";
 
 const {
   selectConnectivityState,
@@ -79,7 +79,7 @@ const StyledReconnectCol = styled(Col)`
 `;
 
 export const ConnectivityWidget = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, toggle } = usePanelCollapse("connectivity");
   const state = useSelector(selectConnectivityState);
   const canSelect = useSelector(canSelectCNC);
   const discoveredItems = useSelector(selectDiscoveredServices);
@@ -114,7 +114,7 @@ export const ConnectivityWidget = () => {
             icon={toggleIcon}
             tooltip={collapsed ? "Expand" : "Collapse"}
             size="sm"
-            onClick={() => setCollapsed((v) => !v)}
+            onClick={toggle}
           />
         </Header>
 

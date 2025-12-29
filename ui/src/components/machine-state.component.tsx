@@ -7,10 +7,11 @@ import { StyledCardBody, StyledCardTitle } from "./styled-card-body.component";
 import { MachineStateSelectors } from "@app/store";
 import { useSelector } from "react-redux";
 import { MachineStatus } from "@app/store/types";
-import React, { useState } from "react";
+import React from "react";
 import { IconButton } from "./icon-button.component";
 import { Header, HeaderLeft, StatusInline } from "./card-header.component";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { usePanelCollapse } from "@app/hooks/usePanelCollapse";
 
 import {
   CiSquareQuestion,
@@ -88,7 +89,7 @@ const CoordinateView = (props: CoordinateViewProps) => {
 };
 
 export const MachineStateWidget = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const { collapsed, toggle } = usePanelCollapse("machineState");
   const workPos = useSelector(selectWorkPos);
   const machinePos = useSelector(selectMachinePos);
   const status = useSelector(selectStatus);
@@ -108,7 +109,7 @@ export const MachineStateWidget = () => {
             icon={collapsed ? <FiChevronDown /> : <FiChevronUp />}
             tooltip={collapsed ? "Expand" : "Collapse"}
             size="sm"
-            onClick={() => setCollapsed((v) => !v)}
+            onClick={toggle}
           />
         </Header>
         {collapsed ? null : (
