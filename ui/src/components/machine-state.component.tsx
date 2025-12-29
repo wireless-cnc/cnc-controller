@@ -129,7 +129,7 @@ export const MachineStateWidget = () => {
       <Card.Body>
         <Header>
           <HeaderLeft>
-            <Card.Title>Machine state</Card.Title>
+            <Card.Title>{collapsed ? "" : "Machine state"}</Card.Title>
             {collapsed && (
               <StatusInline>
                 {machineStatusToIconMap[status]} <span>{status}</span>

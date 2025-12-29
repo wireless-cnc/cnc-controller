@@ -33,10 +33,31 @@ const Header = styled.div`
   gap: 0.5rem;
 `;
 
-const CollapsedRow = styled.div`
+const HeaderLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+`;
+
+const StatusInline = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  line-height: 1;
+
+  & svg {
+    width: 0.9em;
+    height: 0.9em;
+    vertical-align: middle;
+    transform: translateY(-0.05em);
+  }
+
+  & span {
+    display: inline-block;
+    line-height: 1;
+    transform: translateY(-0.05em);
+  }
 `;
 
 const ColWithOffset = styled(Col)`
@@ -73,13 +94,21 @@ export const ConnectivityWidget = () => {
 
   const toggleIcon = collapsed ? <FiChevronDown /> : <FiChevronUp />;
   const activeLabel = activeService
-    ? `${activeService.name} (${activeService.host}:${activeService.port})`
+    ? `${activeService.name}`
     : "Not connected";
   return (
     <StyledCard>
       <Card.Body>
         <Header>
-          <Card.Title>Connection</Card.Title>
+          <HeaderLeft>
+            {!collapsed && <Card.Title>Connection</Card.Title>}
+            {collapsed && (
+              <StatusInline>
+                {statusIcon()}
+                <span>{activeLabel}</span>
+              </StatusInline>
+            )}
+          </HeaderLeft>
           <IconButton
             icon={toggleIcon}
             tooltip={collapsed ? "Expand" : "Collapse"}
@@ -88,12 +117,7 @@ export const ConnectivityWidget = () => {
           />
         </Header>
 
-        {collapsed ? (
-          <CollapsedRow>
-            {statusIcon()}
-            <span>{activeLabel}</span>
-          </CollapsedRow>
-        ) : (
+        {collapsed ? null : (
           <Container>
             <StyledContainer>
               <ColWithOffset sm="1">{statusIcon()}</ColWithOffset>
