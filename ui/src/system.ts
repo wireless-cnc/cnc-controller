@@ -51,6 +51,8 @@ export class SystemController {
       this._initElectron();
     }, 1000);
     const { controller, jobStateHandler } = this._initGrbl();
+    // Expose full GrblController instance for debugging and raw access
+    (window as any).cnc = controller;
     this._initListenerMiddleware(controller);
     return { controller, jobStateHandler };
   }

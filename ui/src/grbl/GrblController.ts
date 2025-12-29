@@ -120,6 +120,11 @@ export class GrblController implements IController {
     this._socket.send(msg);
   }
 
+  // Send a raw command over the websocket as-is (no trimming/newline)
+  public sendRaw(msg: string) {
+    this._raw_send(msg);
+  }
+
   private _send(msg: string) {
     let line = msg.trim().replace(/\s|\(.*\)/g, "");
     if (line.length === 0) {
