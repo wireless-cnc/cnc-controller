@@ -12,6 +12,7 @@ import { ConnectivityWidget } from "./components/connectivity.component";
 import { ThemeProvider } from "./components/theme-provider.component";
 import { JogWidget } from "./components/jog.component";
 import { SpindleControlWidget } from "./components/spindle-control.component";
+import { VisualizationWidget } from "./components/visualization/VisualizationWidget";
 
 export const App = () => {
   return (
@@ -22,6 +23,7 @@ export const App = () => {
           <Row>
             <Col>
               <JobCardWidget />
+              <VisualizationWidget height={500} />
             </Col>
             <Col lg={5}>
               <Container>
@@ -58,3 +60,4 @@ export const App = () => {
     </ThemeProvider>
   );
 };
+

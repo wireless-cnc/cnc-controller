@@ -85,6 +85,7 @@ const selectLines = (state: RootState) => state[JOB_STATE_SLICE].lines;
 const selectMachineStatus = (state: RootState) =>
   state[MACHINE_STATE_SLICE].status;
 const selectJobStatus = (state: RootState) => state[JOB_STATE_SLICE].status;
+const selectFileName = (state: RootState) => state[JOB_STATE_SLICE].fileName;
 
 const canStartJob = createSelector(
   selectLines,
@@ -108,6 +109,11 @@ export const JobStateSelectors = {
   selectLinesTotal,
   selectLinesProcessed,
   selectLines,
+  selectJobStatus,
+  selectFileName,
+  jobLines: selectLines,
+  linesProcessed: selectLinesProcessed,
+  jobStatus: selectJobStatus,
   canStartJob,
   canZeroCoordinates,
 };

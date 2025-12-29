@@ -1,0 +1,89 @@
+/* Visualization Controls Styles */
+
+.visualization-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+.controls-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls-group.info {
+  margin-left: auto;
+}
+
+.control-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  background: rgba(0, 150, 255, 0.2);
+  border: 1px solid rgba(0, 150, 255, 0.5);
+  border-radius: 4px;
+  color: #00d4ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-button:hover {
+  background: rgba(0, 150, 255, 0.4);
+  border-color: rgba(0, 180, 255, 0.8);
+  box-shadow: 0 0 8px rgba(0, 150, 255, 0.3);
+}
+
+.control-button:active {
+  transform: scale(0.95);
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: #00d4ff;
+}
+
+.info-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 12px;
+  font-family: monospace;
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .visualization-controls {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .controls-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .controls-group.info {
+    margin-left: 0;
+  }
+}

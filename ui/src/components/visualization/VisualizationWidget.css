@@ -1,0 +1,44 @@
+/* Visualization Widget Styles */
+
+.visualization-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0;
+  background: transparent;
+}
+
+.visualization-title {
+  margin: 0;
+  padding: 0 12px;
+}
+
+.visualization-title h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.visualization-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .visualization-widget {
+    gap: 8px;
+  }
+
+  .visualization-content {
+    gap: 8px;
+  }
+
+  .visualization-title h5 {
+    font-size: 14px;
+  }
+}

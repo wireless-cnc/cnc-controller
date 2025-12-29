@@ -1,0 +1,106 @@
+/* CNC Toolpath Visualization Styles */
+
+.visualization-container {
+  position: relative;
+  width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  background: #0a0a0a;
+}
+
+.visualization-container canvas {
+  display: block;
+  width: 100%;
+}
+
+.visualization-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.visualization-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  pointer-events: auto;
+}
+
+.visualization-stats {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  width: fit-content;
+  pointer-events: auto;
+  backdrop-filter: blur(4px);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+}
+
+.stat-value {
+  color: #00ff00;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.reset-button {
+  padding: 4px 8px;
+  background: rgba(0, 100, 200, 0.8);
+  border: 1px solid rgba(0, 150, 255, 0.5);
+  border-radius: 3px;
+  color: #00d4ff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reset-button:hover {
+  background: rgba(0, 120, 220, 1);
+  border-color: rgba(0, 180, 255, 1);
+  box-shadow: 0 0 8px rgba(0, 180, 255, 0.4);
+}
+
+.reset-button:active {
+  transform: scale(0.98);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .visualization-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .stat-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+}
