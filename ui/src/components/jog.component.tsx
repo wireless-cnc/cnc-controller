@@ -21,24 +21,24 @@ const StyledCard = styled(Card)`
 
 const JogGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 80px);
-  grid-template-rows: repeat(3, 80px);
-  gap: 8px;
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
+  gap: 6px;
   justify-content: center;
-  margin: 20px auto;
+  margin: 12px auto;
 `;
 
 const JogButton = styled.button<{ $gridArea: string }>`
   grid-area: ${(props) => props.$gridArea};
   border: 2px solid ${(props) => props.theme.mode === "dark" ? "#555" : "#ccc"};
-  border-radius: 8px;
+  border-radius: 6px;
   background: ${(props) => props.theme.mode === "dark" ? "#333" : "#f0f0f0"};
   color: ${(props) => props.theme.mode === "dark" ? "#fff" : "#000"};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 18px;
   transition: all 0.2s;
 
   &:hover:not(:disabled) {
@@ -61,7 +61,7 @@ const ControlRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 15px 0;
+  margin: 10px 0;
 `;
 
 const ControlLabel = styled.label`
@@ -78,7 +78,7 @@ const ControlGroup = styled.div`
 `;
 
 const StyledSelect = styled(Form.Select)`
-  width: 100px;
+  width: 90px;
 `;
 
 const StyledRange = styled(Form.Range)`
