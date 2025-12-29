@@ -37,18 +37,19 @@ const BoxWithBorder = styled.div`
   border-color: var(--theme-border);
   background-color: var(--theme-bg-secondary);
   color: var(--theme-text-primary);
-  padding: 0.3rem;
-  max-width: 100px;
-  max-height: 40px;
+  padding: 0.2rem 0.4rem;
+  max-width: 90px;
+  max-height: 32px;
   text-align: center;
+  font-size: 0.9rem;
 `;
 
 const CenteredContainer = styled(Container)`
   text-align: center;
 `;
 const PaddedContainer = styled(Container)`
-  padding-bottom: 1rem;
-  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
 `;
 
 const machineStatusToIconMap: Record<MachineStatus, React.ReactNode> = {
@@ -90,19 +91,19 @@ export const MachineStateWidget = () => {
     <StyledCard>
       <Card.Body>
         <Card.Title>Machine state</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
+        <Card.Subtitle className="mb-1 text-muted">
           Work coordinates
         </Card.Subtitle>
         <PaddedContainer>
           <CoordinateView x={workPos.x} y={workPos.y} z={workPos.z} />
         </PaddedContainer>
-        <Card.Subtitle className="mb-2 text-muted">
+        <Card.Subtitle className="mb-1 text-muted">
           Machine coordinates
         </Card.Subtitle>
         <PaddedContainer>
           <CoordinateView x={machinePos.x} y={machinePos.y} z={machinePos.z} />
         </PaddedContainer>
-        <Card.Subtitle className="mb-2 text-muted">Status</Card.Subtitle>
+        <Card.Subtitle className="mb-1 text-muted">Status</Card.Subtitle>
         <Card.Text>
           {machineStatusToIconMap[status]} {status}
         </Card.Text>
