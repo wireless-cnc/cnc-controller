@@ -6,7 +6,9 @@ import Container from "react-bootstrap/Container";
 import { MachineStateSelectors } from "@app/store";
 import { useSelector } from "react-redux";
 import { MachineStatus } from "@app/store/types";
-import React from "react";
+import React, { useState } from "react";
+import { IconButton } from "./icon-button.component";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 
 import {
   CiSquareQuestion,
@@ -23,6 +25,40 @@ const { selectMachinePos, selectWorkPos, selectStatus } = MachineStateSelectors;
 
 const StyledCard = styled(Card)`
   margin-top: 0.5rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+`;
+
+const HeaderLeft = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const StatusInline = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+  line-height: 1;
+  
+  & svg {
+    width: 1em;
+    height: 1em;
+    vertical-align: middle;
+    transform: translateY(-0.06em);
+  }
+
+  & span {
+    line-height: 1;
+    display: inline-block;
+    transform: translateY(-0.2em);
+  }
 `;
 
 interface CoordinateViewProps {
@@ -84,29 +120,49 @@ const CoordinateView = (props: CoordinateViewProps) => {
 };
 
 export const MachineStateWidget = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const workPos = useSelector(selectWorkPos);
   const machinePos = useSelector(selectMachinePos);
   const status = useSelector(selectStatus);
   return (
     <StyledCard>
       <Card.Body>
-        <Card.Title>Machine state</Card.Title>
-        <Card.Subtitle className="mb-1 text-muted">
-          Work coordinates
-        </Card.Subtitle>
-        <PaddedContainer>
-          <CoordinateView x={workPos.x} y={workPos.y} z={workPos.z} />
-        </PaddedContainer>
-        <Card.Subtitle className="mb-1 text-muted">
-          Machine coordinates
-        </Card.Subtitle>
-        <PaddedContainer>
-          <CoordinateView x={machinePos.x} y={machinePos.y} z={machinePos.z} />
-        </PaddedContainer>
-        <Card.Subtitle className="mb-1 text-muted">Status</Card.Subtitle>
-        <Card.Text>
-          {machineStatusToIconMap[status]} {status}
-        </Card.Text>
+        <Header>
+          <HeaderLeft>
+            <Card.Title>Machine state</Card.Title>
+            {collapsed && (
+              <StatusInline>
+                {machineStatusToIconMap[status]} <span>{status}</span>
+              </StatusInline>
+            )}
+          </HeaderLeft>
+          <IconButton
+            icon={collapsed ? <FiChevronDown /> : <FiChevronUp />}
+            tooltip={collapsed ? "Expand" : "Collapse"}
+            size="sm"
+            onClick={() => setCollapsed((v) => !v)}
+          />
+        </Header>
+        {collapsed ? null : (
+          <>
+            <Card.Subtitle className="mb-1 text-muted">
+              Work coordinates
+            </Card.Subtitle>
+            <PaddedContainer>
+              <CoordinateView x={workPos.x} y={workPos.y} z={workPos.z} />
+            </PaddedContainer>
+            <Card.Subtitle className="mb-1 text-muted">
+              Machine coordinates
+            </Card.Subtitle>
+            <PaddedContainer>
+              <CoordinateView x={machinePos.x} y={machinePos.y} z={machinePos.z} />
+            </PaddedContainer>
+            <Card.Subtitle className="mb-1 text-muted">Status</Card.Subtitle>
+            <Card.Text>
+              {machineStatusToIconMap[status]} {status}
+            </Card.Text>
+          </>
+        )}
       </Card.Body>
     </StyledCard>
   );

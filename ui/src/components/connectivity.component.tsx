@@ -10,14 +10,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { ServiceDiscoverySelectors, ServiceDiscoveryActions } from "@app/store";
 import { IconButton } from "./icon-button.component";
 import { TfiReload } from "react-icons/tfi";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useState } from "react";
 
-const { selectConnectivityState, canSelectCNC, selectDiscoveredServices } =
-  ServiceDiscoverySelectors;
+const {
+  selectConnectivityState,
+  canSelectCNC,
+  selectDiscoveredServices,
+  selectActiveService,
+} = ServiceDiscoverySelectors;
 
 const { reconnect, connectTo } = ServiceDiscoveryActions;
 
 const StyledCard = styled(Card)`
   margin-top: 0.5rem;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+`;
+
+const CollapsedRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const ColWithOffset = styled(Col)`
@@ -38,60 +57,84 @@ const StyledReconnectCol = styled(Col)`
 `;
 
 export const ConnectivityWidget = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const state = useSelector(selectConnectivityState);
   const canSelect = useSelector(canSelectCNC);
   const discoveredItems = useSelector(selectDiscoveredServices);
+  const activeService = useSelector(selectActiveService);
   const dispatch = useDispatch();
+
+  const statusIcon = () => {
+    if (state === "searching") return <Spinner animation="border" size="sm" />;
+    if (state === "connecting") return <VscCircleFilled color="gray" />;
+    if (state === "connected") return <VscCircleFilled color="green" />;
+    return <VscCircleFilled color="red" />;
+  };
+
+  const toggleIcon = collapsed ? <FiChevronDown /> : <FiChevronUp />;
+  const activeLabel = activeService
+    ? `${activeService.name} (${activeService.host}:${activeService.port})`
+    : "Not connected";
   return (
     <StyledCard>
       <Card.Body>
-        <Card.Title>Connection</Card.Title>
-        <Container>
-          <StyledContainer>
-            <ColWithOffset sm="1">
-              {state === "searching" && (
-                <Spinner animation="border" size="sm" />
-              )}
-              {state === "connecting" && <VscCircleFilled color="gray" />}
-              {state === "connected" && <VscCircleFilled color="green" />}
-              {state === "disconnected" && <VscCircleFilled color="red" />}
-            </ColWithOffset>
-            <Col sm="10">
-              <Form.Select
-                aria-label="Select CNC to work with"
-                disabled={!canSelect}
-                onChange={(e) => {
-                  const serviceInfo = discoveredItems.find(
-                    (item) => `${item.host}:${item.port}` === e.target.value
-                  );
-                  if (serviceInfo) {
-                    dispatch(connectTo(serviceInfo));
-                  }
-                }}
-              >
-                {discoveredItems.length === 0 && (
-                  <option>Searching for CNC...</option>
-                )}
-                {discoveredItems.map((item) => (
-                  <option
-                    key={`${item.host}:${item.port}`}
-                    value={`${item.host}:${item.port}`}
-                  >{`${item.name} (${item.host}:${item.port})`}</option>
-                ))}
-              </Form.Select>
-            </Col>
-            <StyledReconnectCol sm="1">
-              <StyledIconButton
-                icon={<TfiReload />}
-                tooltip="Reconnect"
-                size="sm"
-                onClick={() => {
-                  dispatch(reconnect());
-                }}
-              />
-            </StyledReconnectCol>
-          </StyledContainer>
-        </Container>
+        <Header>
+          <Card.Title>Connection</Card.Title>
+          <IconButton
+            icon={toggleIcon}
+            tooltip={collapsed ? "Expand" : "Collapse"}
+            size="sm"
+            onClick={() => setCollapsed((v) => !v)}
+          />
+        </Header>
+
+        {collapsed ? (
+          <CollapsedRow>
+            {statusIcon()}
+            <span>{activeLabel}</span>
+          </CollapsedRow>
+        ) : (
+          <Container>
+            <StyledContainer>
+              <ColWithOffset sm="1">{statusIcon()}</ColWithOffset>
+              <Col sm="10">
+                <Form.Select
+                  aria-label="Select CNC to work with"
+                  disabled={!canSelect}
+                  value={activeService ? `${activeService.host}:${activeService.port}` : undefined}
+                  onChange={(e) => {
+                    const serviceInfo = discoveredItems.find(
+                      (item) => `${item.host}:${item.port}` === e.target.value
+                    );
+                    if (serviceInfo) {
+                      dispatch(connectTo(serviceInfo));
+                    }
+                  }}
+                >
+                  {discoveredItems.length === 0 && (
+                    <option>Searching for CNC...</option>
+                  )}
+                  {discoveredItems.map((item) => (
+                    <option
+                      key={`${item.host}:${item.port}`}
+                      value={`${item.host}:${item.port}`}
+                    >{`${item.name} (${item.host}:${item.port})`}</option>
+                  ))}
+                </Form.Select>
+              </Col>
+              <StyledReconnectCol sm="1">
+                <StyledIconButton
+                  icon={<TfiReload />}
+                  tooltip="Reconnect"
+                  size="sm"
+                  onClick={() => {
+                    dispatch(reconnect());
+                  }}
+                />
+              </StyledReconnectCol>
+            </StyledContainer>
+          </Container>
+        )}
       </Card.Body>
     </StyledCard>
   );

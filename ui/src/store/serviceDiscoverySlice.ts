@@ -91,6 +91,9 @@ const canSelectCNC = createSelector(
 const selectConnectivityState = (state: RootState) =>
   state[SERVICE_DISCOVERY_SLICE].connectivityState;
 
+const selectActiveService = (state: RootState) =>
+  state[SERVICE_DISCOVERY_SLICE].active;
+
 const _selectDiscoveredServicesMap = (state: RootState) =>
   state[SERVICE_DISCOVERY_SLICE].discovered;
 const _selectId = (state: RootState, id: string) => id;
@@ -106,6 +109,7 @@ export const ServiceDiscoverySelectors = {
   selectDiscoveredServices,
   canSelectCNC,
   selectConnectivityState,
+  selectActiveService,
   selectServiceInfoById,
 };
 
