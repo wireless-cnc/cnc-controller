@@ -24,9 +24,24 @@ if (!isSingleInstance) {
 app.on("second-instance", restoreOrCreateWindow);
 
 /**
- * Disable Hardware Acceleration to save more system resources.
+ * WebGL-based visualization needs GPU acceleration. Allow opting out via env when
+ * troubleshooting GPU issues instead of disabling it globally.
  */
-app.disableHardwareAcceleration();
+const disableHardwareAccelerationEnv = process.env.CNC_DISABLE_GPU;
+const shouldDisableHardwareAcceleration =
+  typeof disableHardwareAccelerationEnv === "string" &&
+  disableHardwareAccelerationEnv.length > 0 &&
+  disableHardwareAccelerationEnv !== "0" &&
+  disableHardwareAccelerationEnv.toLowerCase() !== "false";
+
+if (shouldDisableHardwareAcceleration) {
+  log.info(
+    `Disabling hardware acceleration (CNC_DISABLE_GPU=${disableHardwareAccelerationEnv})`
+  );
+  app.disableHardwareAcceleration();
+} else {
+  log.info("Hardware acceleration enabled for 3D visualization");
+}
 
 /**
  * Shout down background process if all windows was closed
