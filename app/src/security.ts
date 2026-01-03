@@ -1,26 +1,16 @@
 import { app, shell } from "electron";
+import type { Session } from "electron";
 import { URL } from "url";
 
-type Permissions =
-  | "clipboard-read"
-  | "media"
-  | "display-capture"
-  | "mediaKeySystem"
-  | "geolocation"
-  | "notifications"
-  | "midi"
-  | "midiSysex"
-  | "pointerLock"
-  | "fullscreen"
-  | "openExternal"
-  | "unknown";
+type PermissionHandler = NonNullable<Parameters<Session["setPermissionRequestHandler"]>[0]>;
+type Permission = Parameters<PermissionHandler>[1];
 
 /**
  * A list of origins that you allow open INSIDE the application and permissions for them.
  *
  * In development mode you need allow open `VITE_DEV_SERVER_URL`.
  */
-const ALLOWED_ORIGINS_AND_PERMISSIONS = new Map<string, Set<Permissions>>([]);
+const ALLOWED_ORIGINS_AND_PERMISSIONS = new Map<string, Set<Permission>>([]);
 
 /**
  * A list of origins that you allow open IN BROWSER.
