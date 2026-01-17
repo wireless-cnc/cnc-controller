@@ -7,6 +7,8 @@ import {
   serviceDiscoverySlice,
 } from "./serviceDiscoverySlice";
 import { THEME_SLICE, themeSlice } from "./themeSlice";
+import { GRBL_SETTINGS_SLICE } from "./types";
+import { grblSettingsSlice } from "./grblSettingsSlice";
 
 export const listenerMiddleware = createListenerMiddleware();
 
@@ -16,6 +18,7 @@ export const store = configureStore({
     [JOB_STATE_SLICE]: jobStateSlice.reducer,
     [SERVICE_DISCOVERY_SLICE]: serviceDiscoverySlice.reducer,
     [THEME_SLICE]: themeSlice.reducer,
+    [GRBL_SETTINGS_SLICE]: grblSettingsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -30,6 +33,7 @@ export const MachineStateActions = machineStateSlice.actions;
 export const JobActions = jobStateSlice.actions;
 export const ServiceDiscoveryActions = serviceDiscoverySlice.actions;
 export const ThemeActions = themeSlice.actions;
+export const GrblSettingsActions = grblSettingsSlice.actions;
 
 export { MachineStateSelectors } from "./machineStateSlice";
 export { JobStateSelectors } from "./jobStateSlice";
@@ -39,3 +43,4 @@ export {
   listenToCNCDaemonOnline,
 } from "./serviceDiscoverySlice";
 export { ThemeSelectors } from "./themeSlice";
+export { GrblSettingsSelectors } from "./grblSettingsSlice";

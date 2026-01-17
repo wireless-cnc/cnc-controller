@@ -3,6 +3,7 @@ import {
   GrblHandlersGroup,
   JobStateHandler,
   MachineStateHandler,
+  GrblSettingsHandler,
 } from "./grbl";
 import { appContainer } from "./inversify.config";
 import { TYPES } from "./inversify.types";
@@ -31,8 +32,12 @@ export class SystemController {
     const jobStateHandler = appContainer.get<JobStateHandler>(
       TYPES.JobStateHandler
     );
+    const grblSettingsHandler = appContainer.get<GrblSettingsHandler>(
+      TYPES.GrblSettingsHandler
+    );
     handlers.addHandler(machineStateHandler);
     handlers.addHandler(jobStateHandler);
+    handlers.addHandler(grblSettingsHandler);
     controller.setHandler(handlers);
     return {
       controller,

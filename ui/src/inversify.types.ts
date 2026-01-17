@@ -3,6 +3,7 @@ const TYPES = {
   JobStateHandler: Symbol.for("JobStateHandler"),
   GrblHandlersGroup: Symbol.for("GrblHandlersGroup"),
   MachineStateHandler: Symbol.for("MachineStateHandler"),
+  GrblSettingsHandler: Symbol.for("GrblSettingsHandler"),
   AppDispatch: Symbol.for("AppDispatch"),
   GCodeFileWriter: Symbol.for("GCodeFileWriter"),
 };

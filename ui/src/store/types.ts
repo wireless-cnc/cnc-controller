@@ -1,6 +1,7 @@
 export const JOB_STATE_SLICE = "jobState";
 export const MACHINE_STATE_SLICE = "machineState";
 export const SERVICE_DISCOVERY_SLICE = "serviceDiscovery";
+export const GRBL_SETTINGS_SLICE = "grblSettings";
 
 export type JobStatus =
   | "Not started"

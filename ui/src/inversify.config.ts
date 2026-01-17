@@ -4,6 +4,7 @@ import {
   MachineStateHandler,
   JobStateHandler,
   GCodeFileWriter,
+  GrblSettingsHandler,
 } from "./grbl";
 import { TYPES } from "./inversify.types";
 import { AppDispatch, store } from "./store";
@@ -21,6 +22,10 @@ appContainer
 appContainer
   .bind<JobStateHandler>(TYPES.JobStateHandler)
   .to(JobStateHandler)
+  .inSingletonScope();
+appContainer
+  .bind<GrblSettingsHandler>(TYPES.GrblSettingsHandler)
+  .to(GrblSettingsHandler)
   .inSingletonScope();
 appContainer.bind<GCodeFileWriter>(TYPES.GCodeFileWriter).to(GCodeFileWriter);
 
